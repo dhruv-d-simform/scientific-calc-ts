@@ -1,7 +1,7 @@
 "use strict";
 
 import { Display } from "./display.js";
-import { Memory } from "./memory.js";
+import { Memory } from "./memory.ts";
 import { History } from "./history.ts";
 
 export class Calculator {
