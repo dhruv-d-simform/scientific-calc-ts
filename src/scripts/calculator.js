@@ -2,7 +2,7 @@
 
 import { Display } from "./display.js";
 import { Memory } from "./memory.js";
-import { History } from "./history.js";
+import { History } from "./history.ts";
 
 export class Calculator {
 
