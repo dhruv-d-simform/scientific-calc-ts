@@ -15,13 +15,13 @@ export class History {
     private onHistoryUpdate: HistoryUpdateCallback;
 
 
-    constructor(key, onHistoryUpdate) {
+    constructor(key: string, onHistoryUpdate: HistoryUpdateCallback) {
         this.key = key;
         this.onHistoryUpdate = onHistoryUpdate;
 
         let storedHistory: HistoryEntry[] | null = null;
         try {
-            storedHistory = JSON.parse(localStorage.getItem(key));
+            storedHistory = JSON.parse(localStorage.getItem(key) ?? '');
         } catch (err) { }
 
         if (storedHistory && Array.isArray(storedHistory)) {
