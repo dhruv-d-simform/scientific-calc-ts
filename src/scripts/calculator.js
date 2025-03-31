@@ -1,6 +1,6 @@
 "use strict";
 
-import { Display } from "./display.js";
+import { Display } from "./display.ts";
 import { Memory } from "./memory.ts";
 import { History } from "./history.ts";
 

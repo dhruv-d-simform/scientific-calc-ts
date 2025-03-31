@@ -3,26 +3,30 @@
 const NUMBERS_CHARACTER_LIMIT = 15;
 
 export class Display {
+    private displayText: HTMLElement;
 
-    constructor(id) {
-        this.displayText = document.querySelector(`#${id}`);
-        if (!this.displayText) {
+    constructor(id: string) {
+        const element = document.querySelector(`#${id}`);
+        if (!element) {
             throw new Error("Display element not found on page.");
         }
+
+        this.displayText = element as HTMLElement;
     }
 
-    clear() {
+    clear(): void {
         this.displayText.textContent = "0";
     }
 
-    append(txt) {
+    append(txt: string | number): void {
+        const txtStr = String(txt);
 
         // Ensure that the length of the number entered is within the limit.
-        if (!isNaN(txt)) {
-            let digitCount = txt.length;
+        if (!isNaN(Number(txtStr))) {
+            let digitCount = txtStr.length;
             const displayedTxt = this.get();
             for (let i = displayedTxt.length - 1; i >= 0; i--) {
-                if (!isNaN(displayedTxt[i]) || displayedTxt[i] === '.') {
+                if (!isNaN(Number(displayedTxt[i])) || displayedTxt[i] === '.') {
                     digitCount++;
                     continue;
                 }
@@ -36,7 +40,7 @@ export class Display {
         }
 
         // Prevent user from entering multiple decimal points.
-        if (txt.startsWith(".")) {
+        if (txtStr.startsWith(".")) {
             if(this.get().match(/\.\d*$/)) {
                 return;
             }
@@ -71,7 +75,7 @@ export class Display {
         this.displayText.scrollTo(this.displayText.offsetWidth, 100);
     }
 
-    backspace() {
+    backspace(): void {
         const txt = this.displayText.textContent;
         this.displayText.textContent = txt.substring(0, txt.length - 1);
         if (this.displayText.textContent.trim() === '') {
@@ -79,11 +83,11 @@ export class Display {
         }
     }
 
-    get() {
+    get(): string {
         return this.displayText.textContent;
     }
 
-    set(txt) {
-        this.displayText.textContent = txt;
+    set(txt: string | number): void {
+        this.displayText.textContent = String(txt);
     }
 }
