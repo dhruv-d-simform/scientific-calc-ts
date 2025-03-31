@@ -64,8 +64,12 @@ export class Display {
 
         if (typeof txt !== "string" && typeof txt !== "number")
             throw new TypeError("Display only contains string or number");
+        
+        if (this.displayText.textContent === null) {
+            throw new Error('Unexpected error: Display content in null');
+        }
 
-        if (this.displayText.textContent.trim() === "0") {
+        if (this.displayText.textContent?.trim() === "0") {
             this.set(txt)
         }
         else {
@@ -76,7 +80,7 @@ export class Display {
     }
 
     backspace(): void {
-        const txt = this.displayText.textContent;
+        const txt = this.displayText.textContent ?? '';
         this.displayText.textContent = txt.substring(0, txt.length - 1);
         if (this.displayText.textContent.trim() === '') {
             this.clear();
@@ -84,7 +88,7 @@ export class Display {
     }
 
     get(): string {
-        return this.displayText.textContent;
+        return this.displayText.textContent ?? '';
     }
 
     set(txt: string | number): void {
