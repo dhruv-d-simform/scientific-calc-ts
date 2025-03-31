@@ -1,6 +1,6 @@
 "use strict";
 
-import { Calculator } from "./calculator.js";
+import { Calculator } from "./calculator.ts";
 
 // Initialize the calculator.
 let calculator = new Calculator("memoryKey", "historyKey", {
