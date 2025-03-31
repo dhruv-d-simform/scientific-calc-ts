@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+
+<html lang="en-IN">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Scientific Calculator</title>
+
+        <link rel="shortcut icon" href="/assets/icons/calc.svg" type="image/x-icon">
+
+        <meta name="description" content="This is the Scientific Calculator site, in which you can perform various Scientific Calculations.">
+
+        <!-- Open Graph meta tags -->
+        <meta property="og:title" content="Scientific Calculator">
+        <meta property="og:description" content="This is the Scientific Calculator site, in which you can perform various Scientific Calculations.">
+        <meta property="og:image" content="/assets/images/cover_image.png">
+        <meta property="og:image:alt" content="Scientific Calculator Cover Image">
+
+        <!-- Twitter Card meta tags -->
+        <meta name="twitter:title" content="Scientific Calculator">
+        <meta name="twitter:description" content="This is the Scientific Calculator site, in which you can perform various Scientific Calculations.">
+        <meta name="twitter:url" content="/">
+        <meta name="twitter:image:src" content="/assets/images/cover_image.png ">
+        <meta name="twitter:image:alt" content="Scientific Calculator Cover Image">
+
+        <link rel="stylesheet" href="/styles/index.css">
+
+        <script src="/scripts/index.js" type="module"></script>
+    </head>
+
+    <body>
+        <main>
+
+            <div class="history-container">
+                <button class="history-btn" aria-label="History">
+                    <img src="/assets/icons/history.svg" alt="History">
+                </button>
+
+                <div class="history-content">
+                    <p class="history-header">Calculation History</p>
+
+                    <ul id="history-list" class="history-list">
+                        <li>[ No history available ]</li>
+                    </ul>
+
+                    <button id="clear-history" class="clear-history" aria-label="Clear History">Clear History</button>
+                </div>
+            </div>
+
+            <div class="display">
+                <span id="display-text" class="display-text" tabindex="0">0</span>
+            </div>
+
+            <div id="control" class="control">
+                <div class="control-row-1">
+                    <button id="deg-rad" class="btn" aria-label="Degree Mode" value="deg">DEG</button>
+                    <button id="result-mode" class="btn" aria-label="Default Notation Mode" value="f-e">F-E</button>
+                </div>
+
+                <!-- Memory Functions -->
+                <button class="btn memory" data-type="memory" aria-label="Memory Clear" value="mc">MC</button>
+                <button class="btn memory" data-type="memory" aria-label="Memory Recall" value="mr">MR</button>
+                <button class="btn memory" data-type="memory" aria-label="Memory Add" value="m+">M+</button>
+                <button class="btn memory" data-type="memory" aria-label="Memory Subtract" value="m-">M-</button>
+                <button class="btn memory" data-type="memory" aria-label="Memory Store" value="ms">MS</button>
+
+                <div class="control-row-3">
+
+                    <!-- Trigonometry Functions -->
+                    <div class="trigo-container">
+                        <button class="btn" aria-label="Trigonometry Functions" value="trigonometry">
+                            <img src="/assets/icons/trigonometry.svg" alt="Trigonometry">
+                            <span>Trigonometry</span>
+                            <img src="/assets/icons/down_arrow.svg" alt="Down Arrow">
+                        </button>
+
+                        <div class="trigo-content">
+                            <button id="sin-btn" class="btn" aria-label="sin" value="sin">sin</button>
+                            <button id="cos-btn" class="btn" aria-label="cos" value="cos">cos</button>
+                            <button id="tan-btn" class="btn" aria-label="tan" value="tan">tan</button>
+                        </div>
+                    </div>
+
+
+                    <!-- Functions Menu -->
+                    <div class="fn-menu-container">
+                        <button class="btn" aria-label="Function Menu" value="functions">
+                            <img src="/assets/icons/function.svg" alt="Function">
+                            <span>Function</span>
+                            <img src="/assets/icons/down_arrow.svg" alt="Down Arrow">
+                        </button>
+
+                        <div class="fn-menu-content">
+                            <button class="btn" aria-label="floor" value="floor">floor</button>
+                            <button class="btn" aria-label="ceil" value="ceil">ceil</button>
+                            <button class="btn" aria-label="round" value="round">round</button>
+                            <button class="btn" aria-label="cbrt" value="cbrt">cbrt</button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- 2nd Function Mode -->
+                <button id="fn-mode" class="btn" aria-label="Second Function Mode" value="fn2">
+                    2<sup>nd</sup>
+                </button>
+
+                <!-- Constants -->
+                <button class="btn pi" aria-label="Pi" value="pi">π</button>
+                <button class="btn e" aria-label="Eular's Number" value="e">e</button>
+
+                <!-- Control the display -->
+                <button class="btn" aria-label="Clear" value="clear">C</button>
+                <button class="btn" aria-label="Backspace" value="backspace">
+                    <img src="/assets/icons/backspace.svg" alt="Backspace">
+                </button>
+
+                <button class="btn" aria-label="Square" value="square">
+                    x<sup>2</sup>
+                </button>
+                <button class="btn" aria-label="Reciprocal" value="reciprocal">
+                    1/x
+                </button>
+
+                <button class="btn" aria-label="Absolute Value" value="abs">| x |</button>
+                <button class="btn" aria-label="Exponential" value="exp">exp</button>
+                <button class="btn" aria-label="Modulus" value="mod">mod</button>
+
+                <button class="btn" aria-label="Square Root" value="sqrt">
+                    √x
+                </button>
+
+                <button class="btn" aria-label="Parenthesis Open" value="(">(</button>
+                <button class="btn" aria-label="Parenthesis Close" value=")">)</button>
+
+                <button class="btn factorial" aria-label="Factorial" value="factorial">n!</button>
+
+                <button class="btn operator divide" aria-label="Division" value="/">
+                    <img src="/assets/icons/divide.svg" alt="Division">
+                </button>
+
+                <button class="btn" aria-label="Power" value="power">
+                    x<sup>y</sup>
+                </button>
+                <button class="btn numpad digit" aria-label="Digit 7" value="7">7</button>
+                <button class="btn numpad digit" aria-label="Digit 8" value="8">8</button>
+                <button class="btn numpad digit" aria-label="Digit 9" value="9">9</button>
+
+                <button class="btn operator" aria-label="Multiplication" value="*">
+                    <img src="/assets/icons/multiply.svg" alt="Multiplication">
+                </button>
+
+                <button class="btn" aria-label="10 to the Power" value="power10">
+                    10<sup>x</sup>
+                </button>
+
+                <button class="btn numpad digit" aria-label="Digit 4" value="4">4</button>
+                <button class="btn numpad digit" aria-label="Digit 5" value="5">5</button>
+                <button class="btn numpad digit" aria-label="Digit 6" value="6">6</button>
+
+                <button class="btn operator" aria-label="Subtraction" value="-">
+                    <img src="/assets/icons/minus.svg" alt="Subtraction">
+                </button>
+
+                <button class="btn" aria-label="Logarithm" value="log">log</button>
+
+                <button class="btn numpad digit" aria-label="Digit 1" value="1">1</button>
+                <button class="btn numpad digit" aria-label="Digit 2" value="2">2</button>
+                <button class="btn numpad digit" aria-label="Digit 3" value="3">3</button>
+
+                <button class="btn operator" aria-label="Addition" value="+">
+                    <img src="/assets/icons/plus.svg" alt="Addition">
+                </button>
+
+                <button class="btn" aria-label="Natural Logarithm" value="ln">ln</button>
+                <button class="btn numpad plus-or-minus" aria-label="Positive Negative Toggle" value="plusminus">+/-</button>
+
+                <button class="btn numpad digit" aria-label="Digit 0" value="0">0</button>
+                <button class="btn numpad dot" aria-label="Decimal Point" value=".">.</button>
+
+                <button class="btn equals operator" aria-label="Equals" value="=">=</button>
+            </div>
+        </main>
+    </body>
+</html>
