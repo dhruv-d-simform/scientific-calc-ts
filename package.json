@@ -6,7 +6,7 @@
     "scripts": {
         "dev": "parcel serve ./src/index.html --port 3000",
         "type-check": "tsc -b --noEmit",
-        "build": "rm -rf dist .parcel-cache && npm run type-check && npm run lint && parcel build ./src/index.html --no-autoinstall --no-optimize"
+        "build": "rm -rf dist .parcel-cache && npm run type-check && parcel build ./src/index.html --no-autoinstall --no-optimize"
     },
     "repository": {
         "type": "git",
