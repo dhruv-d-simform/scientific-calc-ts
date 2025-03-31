@@ -21,7 +21,7 @@ export class Calculator {
         this.cosBtn = document.querySelector(`#${cosBtnId}`);
         this.tanBtn = document.querySelector(`#${tanBtnId}`);
 
-        this.evaluator = new Worker(new URL('workers/evaluator.js', import.meta.url));
+        this.evaluator = new Worker(new URL('workers/evaluator.ts', import.meta.url));
 
         this.memory = new Memory(memoryKey);
 
