@@ -33,25 +33,25 @@ export class Calculator {
     private clearHistoryBtn: HTMLButtonElement;
     private history: History;
 
-    constructor(memoryKey: string, historyKey: string, eleIDs: CalculatorElementIDs) {
-        this.display = new Display(eleIDs.displayId);
-        this.btns = document.querySelector(`#${eleIDs.btnsId}`) as HTMLElement;
+    constructor(memoryKey: string, historyKey: string, elementIDs: CalculatorElementIDs) {
+        this.display = new Display(elementIDs.displayId);
+        this.btns = document.querySelector(`#${elementIDs.btnsId}`) as HTMLElement;
         this.abortController = new AbortController();
 
-        this.degRadBtn = document.querySelector(`#${eleIDs.degRanBtnId}`) as HTMLButtonElement;
-        this.fnModeBtn = document.querySelector(`#${eleIDs.fnModeBtnId}`) as HTMLButtonElement;
-        this.resultModeBtn = document.querySelector(`#${eleIDs.resultModeBtnId}`) as HTMLButtonElement;
+        this.degRadBtn = document.querySelector(`#${elementIDs.degRanBtnId}`) as HTMLButtonElement;
+        this.fnModeBtn = document.querySelector(`#${elementIDs.fnModeBtnId}`) as HTMLButtonElement;
+        this.resultModeBtn = document.querySelector(`#${elementIDs.resultModeBtnId}`) as HTMLButtonElement;
 
-        this.sinBtn = document.querySelector(`#${eleIDs.sinBtnId}`) as HTMLButtonElement;
-        this.cosBtn = document.querySelector(`#${eleIDs.cosBtnId}`) as HTMLButtonElement;
-        this.tanBtn = document.querySelector(`#${eleIDs.tanBtnId}`) as HTMLButtonElement;
+        this.sinBtn = document.querySelector(`#${elementIDs.sinBtnId}`) as HTMLButtonElement;
+        this.cosBtn = document.querySelector(`#${elementIDs.cosBtnId}`) as HTMLButtonElement;
+        this.tanBtn = document.querySelector(`#${elementIDs.tanBtnId}`) as HTMLButtonElement;
 
         this.evaluator = new Worker(new URL('workers/evaluator.ts', import.meta.url));
 
         this.memory = new Memory(memoryKey);
 
-        this.historyList = document.querySelector(`#${eleIDs.historyListId}`) as HTMLElement;
-        this.clearHistoryBtn = document.querySelector(`#${eleIDs.clearHistoryBtnId}`) as HTMLButtonElement;
+        this.historyList = document.querySelector(`#${elementIDs.historyListId}`) as HTMLElement;
+        this.clearHistoryBtn = document.querySelector(`#${elementIDs.clearHistoryBtnId}`) as HTMLButtonElement;
 
         this.history = new History(historyKey, this.handleHistoryUpdate.bind(this));
 
