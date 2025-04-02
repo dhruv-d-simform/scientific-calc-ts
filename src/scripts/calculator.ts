@@ -193,13 +193,13 @@ export class Calculator {
                 this.memory.clearMemory();
                 return;
             case "mr":
-                this.display.set(this.memory.recallMemory());
+                this.display.set(this.memory.recallFromMemory());
                 return;
             case "m+":
-                this.memory.plusMemory(this.display.get());
+                this.memory.addToMemory(this.display.get());
                 return;
             case "m-":
-                this.memory.minusMemory(this.display.get());
+                this.memory.subtractFromMemory(this.display.get());
                 return;
             case "ms":
                 this.memory.storeMemory(this.display.get());

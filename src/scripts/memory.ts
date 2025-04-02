@@ -34,16 +34,16 @@ export class Memory {
         this.storeCurrentValue();
     }
 
-    recallMemory(): number {
+    recallFromMemory(): number {
         return this.value;
     }
 
-    plusMemory(x: unknown): void {
+    addToMemory(x: unknown): void {
         this.value += this.assertNumber(x);
         this.storeCurrentValue();
     }
 
-    minusMemory(x: unknown): void {
+    subtractFromMemory(x: unknown): void {
         this.value -= this.assertNumber(x);
         this.storeCurrentValue();
     }
