@@ -2,15 +2,26 @@
 
 const HISTORY_LIMIT = 20;
 
-export class History {
+export interface HistoryEntry {
+    query: string;
+    result: string;
+}
 
-    constructor(key, onHistoryUpdate) {
+type HistoryUpdateCallback = (history: Array<HistoryEntry>) => void;
+
+export class History {
+    private key: string;
+    private history: Array<HistoryEntry>;
+    private onHistoryUpdate: HistoryUpdateCallback;
+
+
+    constructor(key: string, onHistoryUpdate: HistoryUpdateCallback) {
         this.key = key;
         this.onHistoryUpdate = onHistoryUpdate;
 
-        let storedHistory;
+        let storedHistory: Array<HistoryEntry> | null = null;
         try {
-            storedHistory = JSON.parse(localStorage.getItem(key));
+            storedHistory = JSON.parse(localStorage.getItem(key) ?? '');
         } catch (err) { }
 
         if (storedHistory && Array.isArray(storedHistory)) {
@@ -31,8 +42,8 @@ export class History {
         localStorage.setItem(this.key, JSON.stringify(this.history));
     }
 
-    addEntry(query, result) {
-        if (!query || !isFinite(result)) return;
+    addEntry(query: string, result: string) {
+        if (!query || !isFinite(Number(result))) return;
 
         this.history.push({ query, result });
         this.removeOldHistory();

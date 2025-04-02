@@ -1,0 +1,32 @@
+{
+    "name": "scientific-calc-ts",
+    "version": "1.0.0",
+    "description": "This is a web-based Scientific Calculator built using vanilla TypeScript. It supports basic arithmatic operations, advanced mathematical functions, trigonometry operations and parantheses for complex calculations.",
+    "type": "module",
+    "scripts": {
+        "dev": "parcel serve ./src/index.html --port 3000",
+        "type-check": "tsc -b --noEmit",
+        "build": "rm -rf dist .parcel-cache && npm run type-check && parcel build ./src/index.html --no-autoinstall --no-optimize"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/dhruvdhaduk-simform/scientific-calc-ts.git"
+    },
+    "keywords": [
+        "calculator",
+        "scientific",
+        "trigonometry",
+        "memory",
+        "history"
+    ],
+    "author": "Dhruv Dhaduk",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/dhruvdhaduk-simform/scientific-calc-ts/issues"
+    },
+    "homepage": "https://github.com/dhruvdhaduk-simform/scientific-calc-ts#readme",
+    "devDependencies": {
+        "parcel": "^2.14.2",
+        "typescript": "^5.8.2"
+    }
+}

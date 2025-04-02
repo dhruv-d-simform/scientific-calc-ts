@@ -15,12 +15,18 @@ const e = Math.E;
 
 const sqrt = Math.sqrt;
 
-function factorial(n) {
+function factorial(n: number): number {
     return n <= 1 ? 1 : n * factorial(n - 1);
 }
 
+interface MessageEventData {
+    query: string;
+    degreeMode: boolean;
+    exponentialResult: boolean;
+}
+
 // Handle message events from main script.
-globalThis.addEventListener("message", function(event) {
+globalThis.addEventListener("message", (event: MessageEvent<MessageEventData>) => {
     try {
         let query = event.data.query
             .replace(/\^/, "**")
@@ -36,13 +42,13 @@ globalThis.addEventListener("message", function(event) {
         let atan = Math.atan;
 
         if (event.data.degreeMode) {
-            sin = (x) => Math.sin(x * (Math.PI / 180));
-            cos = (x) => Math.cos(x * (Math.PI / 180));
-            tan = (x) => Math.tan(x * (Math.PI / 180));
+            sin = (x: number) => Math.sin(x * (Math.PI / 180));
+            cos = (x: number) => Math.cos(x * (Math.PI / 180));
+            tan = (x: number) => Math.tan(x * (Math.PI / 180));
 
-            asin = (x) => (180 / Math.PI) * Math.asin(x);
-            acos = (x) => (180 / Math.PI) * Math.acos(x);
-            atan = (x) => (180 / Math.PI) * Math.atan(x);
+            asin = (x: number) => (180 / Math.PI) * Math.asin(x);
+            acos = (x: number) => (180 / Math.PI) * Math.acos(x);
+            atan = (x: number) => (180 / Math.PI) * Math.atan(x);
         }
 
         let result = eval(query);
@@ -66,6 +72,6 @@ globalThis.addEventListener("message", function(event) {
             success: false,
             query: event.data.query,
             error
-        })
+        });
     }
 });

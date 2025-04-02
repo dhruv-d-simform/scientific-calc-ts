@@ -1,32 +1,57 @@
 "use strict";
 
-import { Display } from "./display.js";
-import { Memory } from "./memory.js";
-import { History } from "./history.js";
+import { Display } from "./display.ts";
+import { Memory } from "./memory.ts";
+import { History } from "./history.ts";
+
+interface CalculatorElementIDs {
+    displayId: string,
+    btnsId: string,
+    degRanBtnId: string,
+    fnModeBtnId: string,
+    resultModeBtnId: string,
+    sinBtnId: string,
+    cosBtnId: string,
+    tanBtnId: string,
+    historyListId: string, 
+    clearHistoryBtnId: string,
+}
 
 export class Calculator {
+    private display: Display;
+    private btns: HTMLElement;
+    private abortController: AbortController;
+    private degRadBtn: HTMLButtonElement;
+    private fnModeBtn: HTMLButtonElement;
+    private resultModeBtn: HTMLButtonElement;
+    private sinBtn: HTMLButtonElement;
+    private cosBtn: HTMLButtonElement;
+    private tanBtn: HTMLButtonElement;
+    private evaluator: Worker;
+    private memory: Memory;
+    private historyList: HTMLElement;
+    private clearHistoryBtn: HTMLButtonElement;
+    private history: History;
 
-    constructor(memoryKey, historyKey, {
-        displayId, btnsId, degRanBtnId, fnModeBtnId, resultModeBtnId, sinBtnId, cosBtnId, tanBtnId, historyListId, clearHistoryBtnId
-    }) {
-        this.display = new Display(displayId);
-        this.btns = document.querySelector(`#${btnsId}`);
+    constructor(memoryKey: string, historyKey: string, elementIDs: CalculatorElementIDs) {
+        this.display = new Display(elementIDs.displayId);
+        this.btns = document.querySelector(`#${elementIDs.btnsId}`) as HTMLElement;
         this.abortController = new AbortController();
 
-        this.degRadBtn = document.querySelector(`#${degRanBtnId}`);
-        this.fnModeBtn = document.querySelector(`#${fnModeBtnId}`);
-        this.resultModeBtn = document.querySelector(`#${resultModeBtnId}`);
+        this.degRadBtn = document.querySelector(`#${elementIDs.degRanBtnId}`) as HTMLButtonElement;
+        this.fnModeBtn = document.querySelector(`#${elementIDs.fnModeBtnId}`) as HTMLButtonElement;
+        this.resultModeBtn = document.querySelector(`#${elementIDs.resultModeBtnId}`) as HTMLButtonElement;
 
-        this.sinBtn = document.querySelector(`#${sinBtnId}`);
-        this.cosBtn = document.querySelector(`#${cosBtnId}`);
-        this.tanBtn = document.querySelector(`#${tanBtnId}`);
+        this.sinBtn = document.querySelector(`#${elementIDs.sinBtnId}`) as HTMLButtonElement;
+        this.cosBtn = document.querySelector(`#${elementIDs.cosBtnId}`) as HTMLButtonElement;
+        this.tanBtn = document.querySelector(`#${elementIDs.tanBtnId}`) as HTMLButtonElement;
 
-        this.evaluator = new Worker("/scripts/workers/evaluator.js");
+        this.evaluator = new Worker(new URL('workers/evaluator.ts', import.meta.url));
 
         this.memory = new Memory(memoryKey);
 
-        this.historyList = document.querySelector(`#${historyListId}`);
-        this.clearHistoryBtn = document.querySelector(`#${clearHistoryBtnId}`);
+        this.historyList = document.querySelector(`#${elementIDs.historyListId}`) as HTMLElement;
+        this.clearHistoryBtn = document.querySelector(`#${elementIDs.clearHistoryBtnId}`) as HTMLButtonElement;
 
         this.history = new History(historyKey, this.handleHistoryUpdate.bind(this));
 
@@ -34,16 +59,16 @@ export class Calculator {
     }
 
     // Add event handlers.
-    init() {
+    private init(): void {
         this.btns.addEventListener("click", e => this.handleClickEvent(e), { signal: this.abortController.signal });
         document.addEventListener("keydown", e => this.handleKeyEvents(e), { signal: this.abortController.signal });
-        this.evaluator.addEventListener("message", e => this.handleResult(e), { signal: this.abortController.signal });
+        this.evaluator.addEventListener("message", e => this.handleResult(e as MessageEvent), { signal: this.abortController.signal });
         this.clearHistoryBtn.addEventListener("click", () => this.history.clear(), { signal: this.abortController.signal });
     }
 
     // Handle click events from buttons using event delegation.
-    handleClickEvent(e) {
-        const btn = e.target.closest("button.btn");
+    private handleClickEvent(e: Event): void {
+        const btn = (e.target as HTMLElement).closest("button.btn") as HTMLButtonElement | null;
 
         if (!btn?.value) return;
 
@@ -56,16 +81,13 @@ export class Calculator {
     }
 
     // Handle Key Events.
-    handleKeyEvents(e) {
+    private handleKeyEvents(e: KeyboardEvent): void {
         this.handleInput(e.key);
     }
 
     // Actual Logic to handle input from both Keyboard and Button click
-    handleInput(input) {
-        if (typeof input !== "string")
-            throw new TypeError("Input must be string");
-
-        if (!isNaN(input)) {
+    private handleInput(input: string): void {
+        if (!isNaN(Number(input))) {
             this.display.append(input);
             return;
         }
@@ -165,19 +187,19 @@ export class Calculator {
         }
     }
 
-    handleMemoryFunctions(input) {
+    private handleMemoryFunctions(input: string): void {
         switch(input) {
             case "mc":
                 this.memory.clearMemory();
                 return;
             case "mr":
-                this.display.set(this.memory.recallMemory());
+                this.display.set(this.memory.recallFromMemory());
                 return;
             case "m+":
-                this.memory.plusMemory(this.display.get());
+                this.memory.addToMemory(this.display.get());
                 return;
             case "m-":
-                this.memory.minusMemory(this.display.get());
+                this.memory.subtractFromMemory(this.display.get());
                 return;
             case "ms":
                 this.memory.storeMemory(this.display.get());
@@ -185,7 +207,7 @@ export class Calculator {
         }
     }
 
-    handleHistoryUpdate(history) {
+    private handleHistoryUpdate(history: Array<{ query: string; result: string }>) {
         this.historyList.innerHTML = "";
 
         if (!history.length) {
@@ -205,7 +227,7 @@ export class Calculator {
     }
 
 
-    sendQuery(query) {
+    private sendQuery(query: string): void {
         this.evaluator.postMessage({
             query,
             degreeMode: this.degRadBtn.value === "deg",
@@ -215,7 +237,7 @@ export class Calculator {
 
 
     // Handle message events from evaluator worker.
-    handleResult(e) {
+    private handleResult(e: MessageEvent): void {
         if (e.data.success) {
             this.display.set(e.data.result);
             if (e.data.query.toString() !== e.data.result.toString())
@@ -227,14 +249,14 @@ export class Calculator {
         }
     }
 
-    toggleDegRad() {
+    private toggleDegRad() {
         const isDeg = this.degRadBtn.value === "deg";
         this.degRadBtn.value = isDeg ? "rad" : "deg";
         this.degRadBtn.textContent = isDeg ? "RAD" : "DEG";
         this.degRadBtn.ariaLabel = isDeg ? "Radian Mode" : "Degree Mode";
     }
 
-    toggleFnMode() {
+    private toggleFnMode() {
         const is2ndMode = this.fnModeBtn.value === "fn2";
         this.fnModeBtn.value = is2ndMode ? "fn1" : "fn2";
         this.fnModeBtn.innerHTML = is2ndMode ? "Primary" : "2<sup>nd</sup>";
@@ -245,7 +267,7 @@ export class Calculator {
         this.tanBtn.value = this.tanBtn.ariaLabel = this.tanBtn.textContent = is2ndMode ? "atan" : "tan";
     }
 
-    toggleResultMode() {
+    private toggleResultMode() {
         const isDefaultMode = this.resultModeBtn.value === "f-e";
         this.resultModeBtn.value = isDefaultMode ? "ex" : "f-e";
         this.resultModeBtn.textContent = isDefaultMode ? "E" : "F-E";

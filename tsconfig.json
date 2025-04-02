@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    /* Language and Environment */
+    "target": "es2016",                                  /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
+
+    /* Modules */
+    "module": "ESNext",                                /* Specify what module code is generated. */
+    "allowImportingTsExtensions": true,               /* Allow imports to include TypeScript file extensions. Requires '--moduleResolution bundler' and either '--noEmit' or '--emitDeclarationOnly' to be set. */
+
+    "strict": true,
+
+    /* Emit */
+    "noEmit": true,                                   /* Disable emitting files from a compilation. */
+  },
+  "include": ["src/**/*.ts"]
+}
