@@ -7,11 +7,11 @@ export interface HistoryEntry {
     result: string;
 }
 
-type HistoryUpdateCallback = (history: HistoryEntry[]) => void;
+type HistoryUpdateCallback = (history: Array<HistoryEntry>) => void;
 
 export class History {
     private key: string;
-    private history: HistoryEntry[];
+    private history: Array<HistoryEntry>;
     private onHistoryUpdate: HistoryUpdateCallback;
 
 
@@ -19,7 +19,7 @@ export class History {
         this.key = key;
         this.onHistoryUpdate = onHistoryUpdate;
 
-        let storedHistory: HistoryEntry[] | null = null;
+        let storedHistory: Array<HistoryEntry> | null = null;
         try {
             storedHistory = JSON.parse(localStorage.getItem(key) ?? '');
         } catch (err) { }

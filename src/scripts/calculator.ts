@@ -207,7 +207,7 @@ export class Calculator {
         }
     }
 
-    private handleHistoryUpdate(history: { query: string; result: string }[]) {
+    private handleHistoryUpdate(history: Array<{ query: string; result: string }>) {
         this.historyList.innerHTML = "";
 
         if (!history.length) {
